@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lhy.victimtosql.mapper.PublicGroupStructureEntityMapper">
+    <select id="getAll"  resultType="com.lhy.victimtosql.entity.PublicGroupStructureEntity">
+         select * from public_group_structure;
+    </select>
+
+    <insert id="insert" parameterType="com.lhy.victimtosql.entity.PublicGroupStructureEntity">
+        insert into public_group_structure (groupname,child_id,child_name,child_type,sever_type)
+        value (#{groupname},#{childId},#{childName},#{childType},#{severType});
+    </insert>
+    
+    <insert id="insertBatch" parameterType="com.lhy.victimtosql.entity.PublicGroupStructureEntity">
+        insert into public_group_structure (groupname,child_id,child_name,child_type,sever_type)
+        values
+        <foreach collection="list" item="PublicGroupStructureEntity" separator=",">
+            (#{PublicGroupStructureEntity.groupname},#{PublicGroupStructureEntity.childId},
+            #{PublicGroupStructureEntity.childName},#{PublicGroupStructureEntity.childType},
+            #{PublicGroupStructureEntity.severType})
+        </foreach>
+    </insert>
+    
+
+    <select id="getGroupNameRandom" parameterType="com.lhy.victimtosql.dto.GetGroupNameRandomDTO" resultType="java.lang.String">
+        SELECT group_domain FROM `public_group_baseinfo` WHERE label_zbzk = #{zbzk} order by rand() limit #{limit}
+    </select>
+</mapper>
